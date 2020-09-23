@@ -1,10 +1,9 @@
 # BD-20-1-final-project
 
-## GERAL
+## Geral
 - SGBD -> Postgresql
 - CRUS -> Python (?), JS, Go, ruby
 
------
 ## Ideias
 
 ### COVID
@@ -15,3 +14,8 @@
   - pensar em mais tabelas
 - _gravidade do caso_ seria algo que identificasse o estado de saúde da pessoa no ápice da doença, como um valor de 0 a 10 por exemplo (seria algo padronizado e bem determinado)
 - note que _gravidade do caso_ seria um atributo "volátil", ou seja, a pessoa iria atualizando conforme seu estado de saúde fosse mudando
+
+#### Parágrafo de proposta
+Escrever o parágrafo aqui.
+
+-----
