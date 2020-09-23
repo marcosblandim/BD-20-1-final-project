@@ -2,7 +2,7 @@
 
 ## Geral
 - SGBD -> Postgresql
-- CRUS -> Python (?), JS, Go, ruby
+- CRUS -> Python (?), JS, Go, ruby (o que é CRUS?)
 
 ## Ideias
 
