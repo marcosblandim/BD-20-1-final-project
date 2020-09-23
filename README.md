@@ -12,3 +12,4 @@
   - pessoa: nome, cpf, endereço, idade, condição de sáude, grupo de risco (derivado das condições de saúde), data de aparição de sintomas, data de confirmação da doença, tipo de teste feito para tal confirmação, cidade (chave externa)
   - cidade: país (chave externa)
   - país
+  - pensar em mais tabelas
