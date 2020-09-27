@@ -15,7 +15,8 @@
 - _gravidade do caso_ seria algo que identificasse o estado de saúde da pessoa no ápice da doença, como um valor de 0 a 10 por exemplo (seria algo padronizado e bem determinado)
 - note que _gravidade do caso_ seria um atributo "volátil", ou seja, a pessoa iria atualizando conforme seu estado de saúde fosse mudando
 
-#### Parágrafo de proposta
-Escrever o parágrafo aqui.
-
+## Parágrafo de proposta
+Tema: COVID
+Alunos: Marcos Blandim Andrade 18/0145223; Igor (...)
+Um Banco de Dados para mapeamento de casos de pessoas infectadas com COVID-19 em qualquer região do mundo. O banco teria entidades como pessoas, cidade e países, e atributos pensados para gerar estatísticas úteis para a análise da evolução de casos de COVID naquela região, e também de seu impacto nas pessoas do local, já que teremeos atributos que indicam o estado de saúde das pessoas por exemplo. O SGBD escolhido foi o PostgrSQL e a linguagem escolhida para o CRUS foi Python.
 -----
