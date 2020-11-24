@@ -23,4 +23,7 @@ Alunos:
 
 Um Banco de Dados para mapeamento de casos de pessoas infectadas com COVID-19 em qualquer região do mundo. O banco teria entidades como pessoas, cidade e países, e atributos pensados para gerar estatísticas úteis para a análise da evolução de casos de COVID naquela região, e também de seu impacto nas pessoas do local, já que teremeos atributos que indicam o estado de saúde das pessoas por exemplo. O SGBD escolhido foi o MySQL e a linguagem escolhida para o CRUS foi Python.
 
------
+## Modelo Relacional
+
+Link para o MER no app Creately: 
+https://app.creately.com/diagram/ncASERcbqLC
