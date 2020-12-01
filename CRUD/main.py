@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
 from flaskext.mysql import MySQL
 import os
+import pymysql
 
 import util
 
@@ -14,6 +15,7 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'PROJETO_COVID'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.secret_key = b'97643917912516513155'
 mysql.init_app(app)
 
 
@@ -121,12 +123,17 @@ def delete_leito():
 def create_leito():
     conn = mysql.connect()
     cursor = conn.cursor()
-    print(request.form["NUMERO"])
-    cursor.execute("INSERT INTO LEITO VALUES ({0},{1},{2},{3},{4})".format(request.form['NUMERO'], request.form['ID_HOSPITAL'], request.form['ANDAR'], request.form['CAPACIDADE'],request.form['INTERNADOS']))
-    
+    # print(request.form["NUMERO"])
+    try:
+        cursor.execute("INSERT INTO LEITO VALUES ({0},{1},{2},{3},{4})".format(request.form['NUMERO'], request.form['ID_HOSPITAL'], request.form['ANDAR'], request.form['CAPACIDADE'],request.form['INTERNADOS']))
+    except pymysql.err.IntegrityError:
+        flash('Leito já existe', 'error')
+        return redirect(url_for('leito'))
+
     conn.commit()
     cursor.close() 
     conn.close()
+    flash('Leito registrado com sucesso', 'success')
     return redirect(url_for('leito'))
 
 @app.route('/paciente/update', methods=("GET",))
