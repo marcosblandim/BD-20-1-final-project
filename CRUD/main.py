@@ -102,8 +102,24 @@ def visitante():
     }
     return render_template("visitante.html", context=context)
 
-@app.route('/leito/update', methods=("GET",))
+@app.route('/leito/update', methods=("GET","POST"))
 def update_leito():
+    if request.method == "GET":
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(request.args['hid'], request.args['num']))
+        leitos = cursor.fetchall()
+
+        conn.commit()
+        cursor.close() 
+        conn.close()
+
+        context = {
+            "leito": leitos[0],
+        }
+        return render_template("update_leito.html", context=context)
+    
     util.update_leito(request)
     return redirect(url_for('leito'))
 

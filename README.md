@@ -1,7 +1,7 @@
 # BD-20-1-final-project
 
 ## TODO
-- implementar mensagens de sucesso/erro
+- fazer as PKs levarem para uma tela de visualização da relacao
 
 ## Geral
 - SGBD -> MySQL
