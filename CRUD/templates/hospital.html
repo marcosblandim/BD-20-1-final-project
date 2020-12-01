@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitais</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages.css') }}"/>
+</head>
+<body>
+    <div class="homeButton">
+        <a href="{{ url_for('index') }}">← Página Inicial</a>
+    </div>
+    <h2>Hospitais</h2>
+    <ul class="filtro">
+        <li>
+            Filtrar por:
+        </li>
+        <li>
+            <input type="text" name="pesquisaNome" class="searchInput" placeholder="Nome">
+        </li>
+        <li>
+            <label for="saudeSelect">Estado de saúde</label>
+            <select name="saudeSelect">
+                <option value="">Qualquer</option>
+                <option value="1">Curado</option>
+                <option value="2">Infectado</option>
+                <option value="3">Óbito</option>
+            </select>
+        </li>
+        <li>
+            <button class="searchButton">Filtrar</button>
+        </li>
+    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>CPF</th>
+                <th>Nome</th>
+                <th>Data de nascimento</th>
+                <th>Estado de Saúde</th>
+                <th>Hospital</th>
+                <th>Leito</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>123.456.789-00</td>
+                <td>João José Junior</td>
+                <td>15/08/1987</td>
+                <td>Infectado</td>
+            </tr>
+            <tr>
+                <td>999.456.789-22</td>
+                <td>Ana Maria</td>
+                <td>10/01/1970</td>
+                <td>Curado</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

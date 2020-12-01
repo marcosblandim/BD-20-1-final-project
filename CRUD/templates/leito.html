@@ -6,7 +6,10 @@
 
 <h2>Registrar leito</h2>
 
-<a href="/" >Voltar</a>
+<div class="homeButton">
+    <a href="{{ url_for('index') }}">← Página Inicial</a>
+</div>
+
 <form method="POST">
     <br><label for="NUMERO">NUMERO</label>
     <input id="NUMERO" name="NUMERO" required type="number">
@@ -25,7 +28,7 @@
 <h2>Visitantes leitos</h2>
 
 {% if context["num_leitos"] %}
-<table style="width:100%">
+<table>
     <tr>
       <th>NUMERO</th>
       <th>ID_HOSPITAL</th>
@@ -43,7 +46,10 @@
         </td>
         {% endfor %}
         <td><a href="/leito/edit?pk={{}}"> editar </a></td>
-        <td><a href="/leito/delete?pk={{}}"> X </a></td>
+        <td>
+            <img onclick="{{ leito[0] }}" src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
+        </td>
+        <!-- <td><a href="/leito/delete?pk={{}}"> X </a></td> -->
     </tr>
     {% endfor %}
 </table> 

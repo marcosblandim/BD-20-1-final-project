@@ -24,7 +24,30 @@
     <button>Registrar</button>
 </form>
 
+<div class="homeButton">
+    <a href="{{ url_for('index') }}">← Página Inicial</a>
+</div>
 <h2>Pacientes registrados</h2>
+<ul class="filtro">
+    <li>
+        Filtrar por:
+    </li>
+    <li>
+        <input type="text" name="pesquisaNome" class="searchInput" placeholder="Nome">
+    </li>
+    <li>
+        <label for="saudeSelect">Estado de saúde</label>
+        <select>
+            <option value="">Qualquer</option>
+            <option value="1">Curado</option>
+            <option value="2">Infectado</option>
+            <option value="3">Óbito</option>
+        </select>
+    </li>
+    <li>
+        <button class="searchButton">Filtrar</button>
+    </li>
+</ul>
 
 {% if context["num_pacientes"] %}
 <table style="width:100%">
