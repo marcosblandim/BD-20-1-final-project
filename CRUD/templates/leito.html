@@ -1,24 +1,41 @@
-<h2>Leito</h2>
-
-{% if context["num_leitos"] %}
-<table style="width:100%">
-    <tr>
-      <th>NUMERO</th>
-      <th>ID_HOSPITAL</th>
-      <th>ANDAR</th>
-      <th>CAPACIDADE</th>
-      <th>INTERNADOS</th>
-    </tr>
-    {% for leito in context["leitos"] %}
-    <tr>
-        {% for col in leito %}
-        <td>
-            {{ col }}
-        </td>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leitos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages.css') }}"/>
+</head>
+<body>
+    <div class="homeButton">
+        <a href="{{ url_for('index') }}">← Página Inicial</a>
+    </div>
+    <h2>Leitos</h2>
+    {% if context["num_leitos"] %}
+    <table>
+        <tr>
+          <th>NUMERO</th>
+          <th>ID_HOSPITAL</th>
+          <th>ANDAR</th>
+          <th>CAPACIDADE</th>
+          <th>INTERNADOS</th>
+        </tr>
+        {% for leito in context["leitos"] %}
+        <tr>
+            {% for col in leito %}
+            <td>
+                {{ col }}
+            </td>
+            {% endfor %}
+            <td>
+                <img onclick="{{ leito[0] }}" src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
+            </td>
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
-</table> 
-{% else %}
-<p>Nenhum leito cadastrado</p>
-{% endif %}
+    </table> 
+    {% else %}
+    <p>Nenhum leito cadastrado</p>
+    {% endif %}
+</body>
+</html>
