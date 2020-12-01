@@ -8,6 +8,7 @@ def update_leito(request):
 def delete_leito(request):
     print("inside delete_leito")
     print(request)
+    print(request.args['hid'])
     
 def update_paciente(request):
     print("inside update_paciente")

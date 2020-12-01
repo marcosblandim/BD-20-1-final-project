@@ -68,8 +68,8 @@
             {{ col }}
         </td>
         {% endfor %}
-        <td><a href="/paciente/edit?pk={{"teste"}}"> editar </a></td>
-        <td><a href="/paciente/delete?pk={{"teste"}}"> X </a></td>
+        <td><a href="/paciente/edit?pk={{paciente[0]}}"> editar </a></td>
+        <td><a href="/paciente/delete?pk={{paciente[0]}}"> X </a></td>
     </tr>
     {% endfor %}
 </table> 

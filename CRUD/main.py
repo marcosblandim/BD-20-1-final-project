@@ -46,7 +46,7 @@ def leito():
 
     num_leitos = cursor.execute("select * from LEITO;")
     leitos = cursor.fetchall()
-    
+
     conn.commit()
     cursor.close() 
     conn.close()
@@ -107,8 +107,26 @@ def update_leito():
 
 @app.route('/leito/delete', methods=("GET",))
 def delete_leito():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(request.args['hid'], request.args['num']))
     
-    util.delete_leito(request)
+    conn.commit()
+    cursor.close() 
+    conn.close()
+    return redirect(url_for('leito'))
+
+@app.route('/leito/create', methods=("POST",))
+def create_leito():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    print(request.form["NUMERO"])
+    cursor.execute("INSERT INTO LEITO VALUES ({0},{1},{2},{3},{4})".format(request.form['NUMERO'], request.form['ID_HOSPITAL'], request.form['ANDAR'], request.form['CAPACIDADE'],request.form['INTERNADOS']))
+    
+    conn.commit()
+    cursor.close() 
+    conn.close()
     return redirect(url_for('leito'))
 
 @app.route('/paciente/update', methods=("GET",))
