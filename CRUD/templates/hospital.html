@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacientes</title>
+    <title>Hospitais</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages.css') }}"/>
 </head>
@@ -11,7 +11,7 @@
     <div class="homeButton">
         <a href="{{ url_for('index') }}">← Página Inicial</a>
     </div>
-    <h2>Pacientes</h2>
+    <h2>Hospitais</h2>
     <ul class="filtro">
         <li>
             Filtrar por:
@@ -21,7 +21,7 @@
         </li>
         <li>
             <label for="saudeSelect">Estado de saúde</label>
-            <select>
+            <select name="saudeSelect">
                 <option value="">Qualquer</option>
                 <option value="1">Curado</option>
                 <option value="2">Infectado</option>
@@ -39,7 +39,6 @@
                 <th>Nome</th>
                 <th>Data de nascimento</th>
                 <th>Estado de Saúde</th>
-                <th>Visitas recebidas</th>
                 <th>Hospital</th>
                 <th>Leito</th>
             </tr>
@@ -50,14 +49,12 @@
                 <td>João José Junior</td>
                 <td>15/08/1987</td>
                 <td>Infectado</td>
-                <td>3</td>
             </tr>
             <tr>
                 <td>999.456.789-22</td>
                 <td>Ana Maria</td>
                 <td>10/01/1970</td>
                 <td>Curado</td>
-                <td>0</td>
             </tr>
         </tbody>
     </table>

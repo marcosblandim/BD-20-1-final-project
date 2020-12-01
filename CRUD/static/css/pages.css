@@ -1,0 +1,59 @@
+h2{
+    text-align: center;
+}
+
+.homeButton{
+    margin: 15px 0px 10px 20px;
+}
+
+table{
+    margin: 10px auto;
+    background-color: rgb(213, 212, 255);
+    border-radius: 10px;
+}
+
+
+td,th{
+    padding: 5px 10px;
+    margin: 0;
+    border: 0;
+    text-align: center;
+}
+
+tr{
+    border-bottom: black 1px solid;
+}
+
+.filtro{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 10px;
+}
+
+.filtro li{
+    margin: 0px 10px;
+}
+
+.searchInput{
+    padding: 5px 10px;
+    background-color: white;
+    color: black;
+    outline: none;
+    border: none;
+    width: 100px;
+}
+
+.searchButton{
+    padding: 5px;
+    background-color: rgb(53, 53, 53);
+    color: white;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.searchButton:hover{
+    background-color: rgb(22, 22, 22);
+}
