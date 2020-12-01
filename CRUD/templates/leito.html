@@ -57,7 +57,7 @@
         {% endfor %}
         <td><a href="/leito/update?hid={{leito[1]}}&num={{leito[0]}}"> editar </a></td>
         <td>
-            <a href="/leito/delete?hid={{leito[1]}}&num={{leito[0]}}">
+            <a href="/leito/delete?num={{leito[0]}}&hid={{leito[1]}}">
                 <img src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
             </a>
         </td>

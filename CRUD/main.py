@@ -17,12 +17,13 @@ app.config['MYSQL_DATABASE_DB'] = 'PROJETO_COVID'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.secret_key = b'97643917912516513155'
 mysql.init_app(app)
-
-
 ##### clean the cache #####
+
+
 @app.context_processor
 def override_url_for():
     return dict(url_for=dated_url_for)
+
 
 def dated_url_for(endpoint, **values):
     if endpoint == 'static':
@@ -34,9 +35,11 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 ##### clean the cache #####
 
+
 @app.route('/')
 def index():
     return render_template("index.html")
+
 
 @app.route('/leito', methods=("GET",))
 def leito():
@@ -58,6 +61,7 @@ def leito():
         "num_leitos": num_leitos
     }
     return render_template("leito.html", context=context)
+
 
 @app.route('/paciente', methods=("GET",))
 def paciente():
@@ -81,6 +85,7 @@ def paciente():
 
     return render_template("paciente.html", context=context)
 
+
 @app.route('/visitante', methods=("GET",))
 def visitante():
     if request.method == "POST":
@@ -102,13 +107,32 @@ def visitante():
     }
     return render_template("visitante.html", context=context)
 
+
+@app.route('/leito/create', methods=("POST",))
+def create_leito():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("INSERT INTO LEITO VALUES ({0},{1},{2},{3},{4})".format(*request.form.values()))
+    except pymysql.err.IntegrityError:
+        flash('Leito já existe', 'error')
+        return redirect(url_for('leito'))
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+    flash('Leito registrado com sucesso', 'success')
+    return redirect(url_for('leito'))
+
+
 @app.route('/leito/update', methods=("GET","POST"))
 def update_leito():
     conn = mysql.connect()
     cursor = conn.cursor()
 
     if request.method == "GET":        
-        cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(request.args['hid'], request.args['num']))
+        cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*request.values()))
         leitos = cursor.fetchall()
 
         conn.commit()
@@ -129,7 +153,6 @@ def update_leito():
         """.format(*form.values())
     )
 
-
     conn.commit()
     cursor.close() 
     conn.close()
@@ -137,49 +160,54 @@ def update_leito():
     util.update_leito(request)
     return redirect(url_for('leito'))
 
+
 @app.route('/leito/delete', methods=("GET",))
 def delete_leito():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(request.args['hid'], request.args['num']))
+    cursor.execute("DELETE FROM LEITO WHERE NUMERO={0} AND ID_HOSPITAL={1};".format(*request.args.values()))
     
     conn.commit()
-    cursor.close() 
     conn.close()
     return redirect(url_for('leito'))
 
-@app.route('/leito/create', methods=("POST",))
-def create_leito():
+
+@app.route('/paciente/create', methods=("POST",))
+def create_paciente():
     conn = mysql.connect()
     cursor = conn.cursor()
-    # print(request.form["NUMERO"])
+
     try:
-        cursor.execute("INSERT INTO LEITO VALUES ({0},{1},{2},{3},{4})".format(request.form['NUMERO'], request.form['ID_HOSPITAL'], request.form['ANDAR'], request.form['CAPACIDADE'],request.form['INTERNADOS']))
+        cursor.execute("INSERT INTO PACIENTE VALUES ({0},{1},{2},{3},{4},{5})".format(*request.form.values()))
     except pymysql.err.IntegrityError:
-        flash('Leito já existe', 'error')
-        return redirect(url_for('leito'))
+        flash('Paciente já existe', 'error')
+        return redirect(url_for('paciente'))
 
     conn.commit()
     cursor.close() 
     conn.close()
-    flash('Leito registrado com sucesso', 'success')
+    flash('PACIENTE registrado com sucesso', 'success')
     return redirect(url_for('leito'))
+
 
 @app.route('/paciente/update', methods=("GET",))
 def update_paciente():
     util.update_paciente(request)
     return redirect(url_for('paciente'))
 
+
 @app.route('/paciente/delete', methods=("GET",))
 def delete_paciente():
     util.delete_paciente(request)
     return redirect(url_for('paciente'))
     
+
 @app.route('/visitante/update', methods=("GET",))
 def update_visitante():
     util.update_visitante(request)
     return redirect(url_for('visitante'))
+
 
 @app.route('/visitante/delete', methods=("GET",))
 def delete_visitante():
