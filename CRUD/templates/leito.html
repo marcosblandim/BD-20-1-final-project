@@ -4,7 +4,25 @@
 
 {% block content %}
 
-<h2>Leitos</h2>
+<h2>Registrar leito</h2>
+
+<a href="/" >Voltar</a>
+<form method="POST">
+    <br><label for="NUMERO">NUMERO</label>
+    <input id="NUMERO" name="NUMERO" required type="number">
+    <br><label for="ID_HOSPITAL">ID_HOSPITAL</label>
+    <input id="ID_HOSPITAL" name="ID_HOSPITAL" required type="number">
+    <br><label for="ANDAR">ANDAR</label>
+    <input id="ANDAR" name="ANDAR" required type="number">
+    <br><label for="CAPACIDADE">CAPACIDADE</label>
+    <input id="CAPACIDADE" name="CAPACIDADE" required type="number">
+    <br><label for="INTERNADOS">INTERNADOS</label>
+    <input id="INTERNADOS" name="INTERNADOS" required type="number">
+    <br><br>
+    <button>Registrar</button>
+</form>
+
+<h2>Visitantes leitos</h2>
 
 {% if context["num_leitos"] %}
 <table style="width:100%">
@@ -14,6 +32,8 @@
       <th>ANDAR</th>
       <th>CAPACIDADE</th>
       <th>INTERNADOS</th>
+      <th>Deletar</th>
+      <th>Editar</th>
     </tr>
     {% for leito in context["leitos"] %}
     <tr>
@@ -22,6 +42,8 @@
             {{ col }}
         </td>
         {% endfor %}
+        <td><a href="/leito/edit?pk={{}}"> editar </a></td>
+        <td><a href="/leito/delete?pk={{}}"> X </a></td>
     </tr>
     {% endfor %}
 </table> 

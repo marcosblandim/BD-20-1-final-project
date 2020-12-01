@@ -1,1 +1,57 @@
-<h2>Paciente</h2>
+{% extends 'base.html' %}
+
+{% block title %}Pacientes{% endblock %}
+
+{% block content %}
+
+<h2>Registrar paciente</h2>
+
+<a href="/" >Voltar</a>
+<form method="POST">
+    <br><label for="CPF">CPF</label>
+    <input id="CPF" name="CPF" required>
+    <br><label for="NOME">NOME</label>
+    <input id="NOME" name="NOME" required>
+    <br><label for="ESTADO_SAUDE">ESTADO_SAUDE</label>
+    <input id="ESTADO_SAUDE" name="ESTADO_SAUDE" required type="number">
+    <br><label for="DATA_NASC">DATA_NASC</label>
+    <input id="DATA_NASC" name="DATA_NASC" required type="date">
+    <br><label for="DATA_INICIO">DATA_INICIO</label>
+    <input id="DATA_INICIO" name="DATA_INICIO" required type="date">
+    <br><label for="DATA_FIM">DATA_FIM</label>
+    <input id="DATA_FIM" name="DATA_FIM" required type="date">
+    <br><br>
+    <button>Registrar</button>
+</form>
+
+<h2>Pacientes registrados</h2>
+
+{% if context["num_pacientes"] %}
+<table style="width:100%">
+    <tr>
+      <th>CPF</th>
+      <th>NOME</th>
+      <th>ESTADO_SAUDE</th>
+      <th>DATA_NASC</th>
+      <th>DATA_INICIO</th>
+      <th>DATA_FIM</th>
+      <th>Deletar</th>
+      <th>Editar</th>
+    </tr>
+    {% for paciente in context["pacientes"] %}
+    <tr>
+        {% for col in paciente %}
+        <td>
+            {{ col }}
+        </td>
+        {% endfor %}
+        <td><a href="/paciente/edit?pk={{}}"> editar </a></td>
+        <td><a href="/paciente/delete?pk={{}}"> X </a></td>
+    </tr>
+    {% endfor %}
+</table> 
+{% else %}
+<p>Nenhum pacientes cadastrado</p>
+{% endif %}
+
+{% endblock %}

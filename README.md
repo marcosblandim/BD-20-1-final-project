@@ -1,5 +1,8 @@
 # BD-20-1-final-project
 
+## TODO
+- implementar mensagens de sucesso/erro
+
 ## Geral
 - SGBD -> MySQL
 - CRUS -> Python.
