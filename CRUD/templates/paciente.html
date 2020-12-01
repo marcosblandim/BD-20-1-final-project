@@ -6,7 +6,10 @@
 
 <h2>Registrar paciente</h2>
 
-<a href="/" >Voltar</a>
+<div class="homeButton">
+    <a href="{{ url_for('index') }}">← Página Inicial</a>
+</div>
+
 <form method="POST">
     <br><label for="CPF">CPF</label>
     <input id="CPF" name="CPF" required>
@@ -24,9 +27,6 @@
     <button>Registrar</button>
 </form>
 
-<div class="homeButton">
-    <a href="{{ url_for('index') }}">← Página Inicial</a>
-</div>
 <h2>Pacientes registrados</h2>
 <ul class="filtro">
     <li>

@@ -107,6 +107,7 @@ def update_leito():
 
 @app.route('/leito/delete', methods=("GET",))
 def delete_leito():
+    
     util.delete_leito(request)
     return redirect(url_for('leito'))
 
