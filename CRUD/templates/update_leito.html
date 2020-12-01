@@ -6,9 +6,9 @@
 
 <form method="POST" action="/leito/update">
     <br><label for="NUMERO">NUMERO</label>
-    <input id="NUMERO" name="NUMERO" disabled type="number" value={{context["leito"][0]}}>
+    <input id="NUMERO" name="NUMERO" readonly="readonly" type="number" value={{context["leito"][0]}}>
     <br><label for="ID_HOSPITAL">ID_HOSPITAL</label>
-    <input id="ID_HOSPITAL" name="ID_HOSPITAL" disabled type="number" value="{{context["leito"][1]}}"">
+    <input id="ID_HOSPITAL" name="ID_HOSPITAL" readonly="readonly" type="number" value="{{context["leito"][1]}}"">
     <br><label for="ANDAR">ANDAR</label>
     <input id="ANDAR" name="ANDAR" required type="number" value="{{context["leito"][2]}}"">
     <br><label for="CAPACIDADE">CAPACIDADE</label>

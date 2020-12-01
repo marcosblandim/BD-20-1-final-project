@@ -104,10 +104,10 @@ def visitante():
 
 @app.route('/leito/update', methods=("GET","POST"))
 def update_leito():
-    if request.method == "GET":
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    if request.method == "GET":        
         cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(request.args['hid'], request.args['num']))
         leitos = cursor.fetchall()
 
@@ -119,7 +119,21 @@ def update_leito():
             "leito": leitos[0],
         }
         return render_template("update_leito.html", context=context)
-    
+
+    form = request.form
+    print(list(form.values()))
+    cursor.execute("""
+        UPDATE LEITO 
+        SET ANDAR={2}, CAPACIDADE={3}, INTERNADOS={4}
+        WHERE ID_HOSPITAL={0} AND NUMERO={1};
+        """.format(*form.values())
+    )
+
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+
     util.update_leito(request)
     return redirect(url_for('leito'))
 
