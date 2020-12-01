@@ -10,7 +10,7 @@
     <a href="{{ url_for('index') }}">← Página Inicial</a>
 </div>
 
-<form method="POST">
+<form method="POST" action="/leito/create">
     <br><label for="NUMERO">NUMERO</label>
     <input id="NUMERO" name="NUMERO" required type="number">
     <br><label for="ID_HOSPITAL">ID_HOSPITAL</label>
@@ -22,10 +22,10 @@
     <br><label for="INTERNADOS">INTERNADOS</label>
     <input id="INTERNADOS" name="INTERNADOS" required type="number">
     <br><br>
-    <button>Registrar</button>
+    <input type="submit">Registrar</input>
 </form>
 
-<h2>Visitantes leitos</h2>
+<h2>Leitos</h2>
 
 {% if context["num_leitos"] %}
 <table>
@@ -45,11 +45,12 @@
             {{ col }}
         </td>
         {% endfor %}
-        <td><a href="/leito/edit?pk={{}}"> editar </a></td>
+        <td><a href="/leito/edit?pk={{leito[0]}}"> editar </a></td>
         <td>
-            <img onclick="{{ leito[0] }}" src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
+            <a href="/leito/delete?hid={{leito[1]}}&num={{leito[0]}}">
+                <img src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
+            </a>
         </td>
-        <!-- <td><a href="/leito/delete?pk={{}}"> X </a></td> -->
     </tr>
     {% endfor %}
 </table> 
