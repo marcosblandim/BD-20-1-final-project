@@ -1,4 +1,10 @@
-<h2>Leito</h2>
+{% extends 'base.html' %}
+
+{% block title %}Leitos{% endblock %}
+
+{% block content %}
+
+<h2>Leitos</h2>
 
 {% if context["num_leitos"] %}
 <table style="width:100%">
@@ -22,3 +28,5 @@
 {% else %}
 <p>Nenhum leito cadastrado</p>
 {% endif %}
+
+{% endblock %}
