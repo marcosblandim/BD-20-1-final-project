@@ -1,1 +1,24 @@
 <h2>Leito</h2>
+
+{% if context["num_leitos"] %}
+<table style="width:100%">
+    <tr>
+      <th>NUMERO</th>
+      <th>ID_HOSPITAL</th>
+      <th>ANDAR</th>
+      <th>CAPACIDADE</th>
+      <th>INTERNADOS</th>
+    </tr>
+    {% for leito in context["leitos"] %}
+    <tr>
+        {% for col in leito %}
+        <td>
+            {{ col }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table> 
+{% else %}
+<p>Nenhum leito cadastrado</p>
+{% endif %}
