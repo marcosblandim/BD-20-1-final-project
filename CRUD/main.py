@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from flaskext.mysql import MySQL
 import os
 
-from util import *
+import util
 
 
 app = Flask(__name__)
@@ -132,4 +132,5 @@ def delete_visitante():
 
 
 if __name__ == "__main__":
+    util.initiate_db()
     app.run(debug=True,host="0.0.0.0")
