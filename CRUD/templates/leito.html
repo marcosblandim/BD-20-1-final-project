@@ -45,11 +45,11 @@
             {{ col }}
         </td>
         {% endfor %}
-        <td><a href="/leito/edit?pk={{}}"> editar </a></td>
+        <td><a href="/leito/edit?pk={{"teste"}}"> editar </a></td>
         <td>
-            <img onclick="{{ leito[0] }}" src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
+            <img onclick="" src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
         </td>
-        <!-- <td><a href="/leito/delete?pk={{}}"> X </a></td> -->
+        {# <td><a href="/leito/delete?pk={{}}"> X </a></td> #}
     </tr>
     {% endfor %}
 </table> 
