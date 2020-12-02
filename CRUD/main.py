@@ -132,7 +132,6 @@ def visita():
         "visitas": visitas,
         "pacientes": pacientes,
         "visitantes": visitantes,
-        "num_visitas": num_visitas
     }
     return render_template("visita.html", context=context)
 
