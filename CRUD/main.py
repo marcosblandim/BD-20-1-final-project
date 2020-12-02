@@ -47,7 +47,7 @@ def leito():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    num_leitos = cursor.execute("select * from LEITO;")
+    cursor.execute("select * from LEITO;")
     leitos = cursor.fetchall()
 
     conn.commit()
@@ -56,7 +56,6 @@ def leito():
 
     context = {
         "leitos": leitos,
-        "num_leitos": num_leitos
     }
     return render_template("leito.html", context=context)
 
@@ -67,7 +66,7 @@ def paciente():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    num_pacientes = cursor.execute("select * from PACIENTE;")
+    cursor.execute("select * from PACIENTE;")
     pacientes = cursor.fetchall()
 
     cursor.execute("select * from LEITO;")
@@ -79,7 +78,6 @@ def paciente():
 
     context = {
         "pacientes": pacientes,
-        "num_pacientes": num_pacientes,
         "leitos": leitos
     }
 
@@ -92,7 +90,7 @@ def visitante():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    num_visitantes = cursor.execute("select * from VISITANTE;")
+    cursor.execute("select * from VISITANTE;")
     visitantes = cursor.fetchall()
     
     conn.commit()
@@ -101,7 +99,6 @@ def visitante():
 
     context = {
         "visitantes": visitantes,
-        "num_visitantes": num_visitantes
     }
     return render_template("visitante.html", context=context)
 
@@ -117,7 +114,7 @@ def visita():
     elif 'visitante' in request.args:
         num_visitas = cursor.execute("select * from VISITAS where CPF_VISITANTE=%s;", request.args['visitante'])
     else:
-        num_visitas = cursor.execute("select * from VISITAS;")
+        cursor.execute("select * from VISITAS;")
             
     visitas = cursor.fetchall()
     
@@ -133,9 +130,9 @@ def visita():
 
     context = {
         "visitas": visitas,
-        "num_visitas": num_visitas,
         "pacientes": pacientes,
-        "visitantes": visitantes
+        "visitantes": visitantes,
+        "num_visitas": num_visitas
     }
     return render_template("visita.html", context=context)
 
@@ -382,7 +379,7 @@ def leito_do_paciente():
 
     args = list(request.args.values())
 
-    print(cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*args[0:2])))
+    cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*args[0:2]))
     leitos = cursor.fetchall()
 
     paciente_nome = args[2]
@@ -414,6 +411,29 @@ def leitos_visitantes():
     }
 
     return render_template("leitos_visitantes.html", context=context)
+
+@app.route('/pacientes_do_leito', methods=("GET",))
+def pacientes_do_leito():
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    args = list(request.args.values())
+
+    cursor.execute("SELECT * FROM PACIENTE WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*args))
+    pacientes = cursor.fetchall()
+
+    leito_id = ' - '.join(args)
+
+    conn.commit()
+    conn.close()
+
+    context = {
+        "pacientes": pacientes,
+        "leito_id": leito_id
+    }
+
+    return render_template("pacientes_do_leito.html", context=context)
 
 
 if __name__ == "__main__":

@@ -43,12 +43,12 @@
         {% endfor %}
     </select>
     <br><br>
-    <input type="submit">Registrar</input>
+    <input type="submit"></input>
 </form>
 
 <h2>Pacientes registrados</h2>
 
-{% if context["num_pacientes"] %}
+{% if context["pacientes"] %}
 <table>
     <tr>
       <th>CPF</th>

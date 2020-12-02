@@ -27,7 +27,7 @@
 
 <h2>Leitos</h2>
 
-{% if context["num_leitos"] %}
+{% if context["leitos"] %}
 <table>
     <tr>
         <th>ID_HOSPITAL</th>
@@ -35,6 +35,7 @@
         <th>ANDAR</th>
         <th>CAPACIDADE</th>
         <th>INTERNADOS</th>
+        <th>PACIENTES</th>
         <th>Atualizar</th>
         <th>Deletar</th>
     </tr>
@@ -45,6 +46,9 @@
             {{ col }}
         </td>
         {% endfor %}
+        <td>
+            <a href="/pacientes_do_leito?hid={{leito[0]}}&num={{leito[1]}}">PACIENTES</a>
+        </td>
         <td><a href="/leito/update?hid={{leito[0]}}&num={{leito[1]}}"> atualizar </a></td>
         <td>
             <a href="/leito/delete?hid={{leito[0]}}&num={{leito[1]}}">
