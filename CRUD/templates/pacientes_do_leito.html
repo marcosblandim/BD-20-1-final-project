@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Leito{% endblock %}
+{% block title %}Pacientes{% endblock %}
 
 {% block content %}
 
@@ -16,28 +16,34 @@
   {% endif %}
 {% endwith %}
 
-<h2>Leito do paciente {{context["paciente_nome"]}}</h2>
+<h2>Pacientes do leito {{context["leito_id"]}}</h2>
 
 <div class="goBackButton">
-    <a href="{{ url_for('paciente') }}">← Voltar</a>
+    <a href="{{ url_for('leito') }}">← Voltar</a>
 </div>
 
+{% if context["pacientes"] %}
 <table>
     <tr>
-        <th>ID_HOSPITAL</th>
-        <th>NUMERO</th>
-        <th>ANDAR</th>
-        <th>CAPACIDADE</th>
-        <th>INTERNADOS</th>
+      <th>CPF</th>
+      <th>NOME</th>
+      <th>ESTADO_SAUDE</th>
+      <th>DATA_NASC</th>
+      <th>DATA_INICIO</th>
+      <th>DATA_FIM</th>
     </tr>
+    {% for paciente in context["pacientes"] %}
     <tr><br>
-        {% for col in context["leito"] %}
+        {% for col in paciente[0:6] %}
         <td>
             {{ col }}
         </td>
         {% endfor %}
     </tr>
-
-</table>
+    {% endfor %}
+</table> 
+{% else %}
+<p>Nenhum pacientes cadastrado para esse leito</p>
+{% endif %}
 
 {% endblock %}
