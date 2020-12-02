@@ -2,6 +2,16 @@
 
 ## TODO
 - fazer as PKs levarem para uma tela de visualização da relacao
+  - paciente cadastra 1 leito e N visitantes
+  - visitante cadastra N pacientes
+  - (implementar depois) leito cadastra N pacientes
+  - toda entidade vai ter um link que leva para uma tela de visualizacao de suas pks (uma PK por vez)
+- implementar os contadores na home
+- melhorar o front
+- resolver o problema das entradas negativas nos numero inteiros
+- colocar alerta em todas as acoes
+- fazer legenda do estado de saúde
+- mandar todas as pks disponiveis para aquela entidade, listar elas em um select (parecido com o front do visita), e usar elas para mostrar a relacao depois.
 
 ## Geral
 - SGBD -> MySQL

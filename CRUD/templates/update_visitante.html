@@ -1,0 +1,18 @@
+<h2>Atualizar visitante</h2>
+
+<div class="homeButton">
+    <a href="{{ url_for('visitante') }}">← Voltar</a>
+</div>
+
+<form method="POST" action="/visitante/update">
+    <br><label for="CPF">CPF</label>
+    <input id="CPF" name="CPF" required readonly="readonly" value="{{context["visitante"][0]}}">
+    <br><label for="NOME">NOME</label>
+    <input id="NOME" name="NOME" required value="{{context["visitante"][1]}}">
+    <br><label for="ESTADO_SAUDE">ESTADO_SAUDE</label>
+    <input id="ESTADO_SAUDE" name="ESTADO_SAUDE" required type="number" value="{{context["visitante"][2]}}">
+    <br><label for="DATA_NASC">DATA_NASC</label>
+    <input id="DATA_NASC" name="DATA_NASC" required type="date" value="{{context["visitante"][3]}}">
+    <br><br>
+    <button>Registrar</button>
+</form>

@@ -4,16 +4,6 @@
 
 {% block content %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
 <h2>Registrar leito</h2>
 
 <div class="homeButton">
@@ -32,7 +22,7 @@
     <br><label for="INTERNADOS">INTERNADOS</label>
     <input id="INTERNADOS" name="INTERNADOS" required type="number">
     <br><br>
-    <input type="submit">Registrar</input>
+    <button>Registrar</button>
 </form>
 
 <h2>Leitos</h2>
@@ -45,8 +35,8 @@
       <th>ANDAR</th>
       <th>CAPACIDADE</th>
       <th>INTERNADOS</th>
+      <th>Atualizar</th>
       <th>Deletar</th>
-      <th>Editar</th>
     </tr>
     {% for leito in context["leitos"] %}
     <tr>
@@ -55,10 +45,10 @@
             {{ col }}
         </td>
         {% endfor %}
-        <td><a href="/leito/update?hid={{leito[1]}}&num={{leito[0]}}"> editar </a></td>
+        <td><a href="/leito/update?num={{leito[0]}}&hid={{leito[1]}}"> atualizar </a></td>
         <td>
             <a href="/leito/delete?num={{leito[0]}}&hid={{leito[1]}}">
-                <img src="{{ url_for('static', filename='trash.png') }}" alt="apagar" />
+                <img src="{{ url_for('static', filename='trash.png') }}" alt="deletar" />
             </a>
         </td>
     </tr>
@@ -67,5 +57,17 @@
 {% else %}
 <p>Nenhum leito cadastrado</p>
 {% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    window.onload = function(){
+        alert('{{ category + " : " + message}}');
+    };
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 {% endblock %}

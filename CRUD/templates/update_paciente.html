@@ -1,0 +1,26 @@
+<h2>Atualizar paciente</h2>
+
+<div class="homeButton">
+    <a href="{{ url_for('paciente') }}">← Voltar</a>
+</div>
+
+<form method="POST" action="/paciente/update">
+    <br><label for="CPF">CPF</label>
+    <input id="CPF" name="CPF" required readonly="readonly" value="{{context["paciente"][0]}}">
+    <br><label for="NOME">NOME</label>
+    <input id="NOME" name="NOME" required value="{{context["paciente"][1]}}">
+    <br><label for="ESTADO_SAUDE">ESTADO_SAUDE</label>
+    <input id="ESTADO_SAUDE" name="ESTADO_SAUDE" required type="number" value="{{context["paciente"][2]}}">
+    <br><label for="DATA_NASC">DATA_NASC</label>
+    <input id="DATA_NASC" name="DATA_NASC" required type="date" value="{{context["paciente"][3]}}">
+    <br><label for="DATA_INICIO">DATA_INICIO</label>
+    <input id="DATA_INICIO" name="DATA_INICIO" required type="date" value="{{context["paciente"][4]}}">
+    <br><label for="DATA_FIM">DATA_FIM</label>
+    <input id="DATA_FIM" name="DATA_FIM" required type="date" value="{{context["paciente"][5]}}">
+    <!-- <br><label for="ID_HOSPITAL">ID do hospital</label>
+    <input id="ID_HOSPITAL" name="ID_HOSPITAL" required type="number" value="{{context["paciente"][6]}}">
+    <br><label for="NUMERO">Número do hospital</label>
+    <input id="NUMERO" name="NUMERO" required type="number" value="{{context["paciente"][7]}}> -->
+    <br><br>
+    <button>Registrar</button>
+</form>

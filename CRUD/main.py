@@ -43,8 +43,6 @@ def index():
 
 @app.route('/leito', methods=("GET",))
 def leito():
-    if request.method == "POST":
-        pass
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -65,22 +63,20 @@ def leito():
 
 @app.route('/paciente', methods=("GET",))
 def paciente():
-    if request.method == "POST":
-        pass
 
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    num_leitos = cursor.execute("select * from PACIENTE;")
-    leitos = cursor.fetchall()
+    num_pacientes = cursor.execute("select * from PACIENTE;")
+    pacientes = cursor.fetchall()
     
     conn.commit()
     cursor.close() 
     conn.close()
 
     context = {
-        "pacientes": leitos,
-        "num_pacientes": num_leitos
+        "pacientes": pacientes,
+        "num_pacientes": num_pacientes
     }
 
     return render_template("paciente.html", context=context)
@@ -88,24 +84,50 @@ def paciente():
 
 @app.route('/visitante', methods=("GET",))
 def visitante():
-    if request.method == "POST":
-        pass
 
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    num_leitos = cursor.execute("select * from VISITANTE;")
-    leitos = cursor.fetchall()
+    num_visitantes = cursor.execute("select * from VISITANTE;")
+    visitantes = cursor.fetchall()
     
     conn.commit()
     cursor.close() 
     conn.close()
 
     context = {
-        "visitantes": leitos,
-        "num_visitantes": num_leitos
+        "visitantes": visitantes,
+        "num_visitantes": num_visitantes
     }
     return render_template("visitante.html", context=context)
+
+
+@app.route('/visita', methods=("GET",))
+def visita():
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    num_visitas = cursor.execute("select * from VISITAS;")
+    visitas = cursor.fetchall()
+    
+    cursor.execute("select CPF, NOME from PACIENTE;")
+    pacientes = cursor.fetchall()
+
+    cursor.execute("select CPF, NOME from VISITANTE;")
+    visitantes = cursor.fetchall()
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+
+    context = {
+        "visitas": visitas,
+        "num_visitas": num_visitas,
+        "pacientes": pacientes,
+        "visitantes": visitantes
+    }
+    return render_template("visita.html", context=context)
 
 
 @app.route('/leito/create', methods=("POST",))
@@ -132,7 +154,7 @@ def update_leito():
     cursor = conn.cursor()
 
     if request.method == "GET":        
-        cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*request.values()))
+        cursor.execute("SELECT * FROM LEITO WHERE NUMERO={0} AND ID_HOSPITAL={1};".format(*request.args.values()))
         leitos = cursor.fetchall()
 
         conn.commit()
@@ -145,11 +167,10 @@ def update_leito():
         return render_template("update_leito.html", context=context)
 
     form = request.form
-    print(list(form.values()))
     cursor.execute("""
         UPDATE LEITO 
         SET ANDAR={2}, CAPACIDADE={3}, INTERNADOS={4}
-        WHERE ID_HOSPITAL={0} AND NUMERO={1};
+        WHERE NUMERO={0} AND ID_HOSPITAL={1};
         """.format(*form.values())
     )
 
@@ -157,7 +178,6 @@ def update_leito():
     cursor.close() 
     conn.close()
 
-    util.update_leito(request)
     return redirect(url_for('leito'))
 
 
@@ -179,7 +199,8 @@ def create_paciente():
     cursor = conn.cursor()
 
     try:
-        cursor.execute("INSERT INTO PACIENTE VALUES ({0},{1},{2},{3},{4},{5})".format(*request.form.values()))
+        #cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*request.form.values()))
+        cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}")'.format(*request.form.values()))
     except pymysql.err.IntegrityError:
         flash('Paciente já existe', 'error')
         return redirect(url_for('paciente'))
@@ -188,31 +209,150 @@ def create_paciente():
     cursor.close() 
     conn.close()
     flash('PACIENTE registrado com sucesso', 'success')
-    return redirect(url_for('leito'))
+    return redirect(url_for('paciente'))
 
 
-@app.route('/paciente/update', methods=("GET",))
+@app.route('/paciente/update', methods=("GET","POST"))
 def update_paciente():
-    util.update_paciente(request)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    if request.method == "GET":        
+        cursor.execute("SELECT * FROM PACIENTE WHERE CPF={0};".format(*request.args.values()))
+        pacientes = cursor.fetchall()
+
+        conn.commit()
+        cursor.close() 
+        conn.close()
+
+        context = {
+            "paciente": pacientes[0],
+        }
+        return render_template("update_paciente.html", context=context)
+
+    form = request.form
+    # cursor.execute("""
+    #     UPDATE PACIENTE 
+    #     SET NOME={1}, ESTADO_SAUDE={2}, DATA_NASC={3}, DATA_INICIO={4}, DATA_FIM={5}, ID_HOSPITAL={6}, NUMERO={7}
+    #     WHERE CPF={0};
+    #     """.format(*form.values())
+    # )
+    cursor.execute("""
+        UPDATE PACIENTE 
+        SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}"
+        WHERE CPF="{0}";
+        """.format(*form.values())
+    )
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+
     return redirect(url_for('paciente'))
 
 
 @app.route('/paciente/delete', methods=("GET",))
 def delete_paciente():
-    util.delete_paciente(request)
-    return redirect(url_for('paciente'))
-    
+    conn = mysql.connect()
+    cursor = conn.cursor()
 
-@app.route('/visitante/update', methods=("GET",))
-def update_visitante():
-    util.update_visitante(request)
+    cursor.execute('DELETE FROM PACIENTE WHERE CPF="{0}";'.format(*request.args.values()))
+    
+    conn.commit()
+    conn.close()
+    return redirect(url_for('paciente'))
+
+
+@app.route('/visitante/create', methods=("POST",))
+def create_visitante():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('INSERT INTO VISITANTE VALUES ("{0}","{1}",{2},"{3}")'.format(*request.form.values()))
+    except pymysql.err.IntegrityError:
+        flash('Visitante já existe', 'error')
+        return redirect(url_for('visitante'))
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+    flash('Visitante registrado com sucesso', 'success')
     return redirect(url_for('visitante'))
 
+
+@app.route('/visitante/update', methods=("GET","POST"))
+def update_visitante():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    if request.method == "GET":        
+        cursor.execute('SELECT * FROM VISITANTE WHERE CPF="{0}";'.format(*request.args.values()))
+        visitantes = cursor.fetchall()
+
+        conn.commit()
+        cursor.close() 
+        conn.close()
+
+        context = {
+            "visitante": visitantes[0],
+        }
+        return render_template("update_visitante.html", context=context)
+
+    form = request.form
+    cursor.execute("""
+        UPDATE VISITANTE 
+        SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}"
+        WHERE CPF="{0}";
+        """.format(*form.values())
+    )
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+
+    return redirect(url_for('visitante'))
 
 @app.route('/visitante/delete', methods=("GET",))
 def delete_visitante():
-    util.delete_visitante(request)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM VISITANTE WHERE CPF="{0}"'.format(*request.args.values()))
+    
+    conn.commit()
+    conn.close()
     return redirect(url_for('visitante'))
+
+
+@app.route('/visita/create', methods=("POST",))
+def create_visita():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('INSERT INTO VISITAS VALUES ("{0}","{1}","{2}")'.format(*request.form.values()))
+    except pymysql.err.IntegrityError:
+        flash('Visita já existe', 'error')
+        return redirect(url_for('visita'))
+
+    conn.commit()
+    cursor.close() 
+    conn.close()
+    flash('Visita registrada com sucesso', 'success')
+    return redirect(url_for('visita'))
+
+
+@app.route('/visita/delete', methods=("GET",))
+def delete_visita():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM VISITAS WHERE CPF_PACIENTE="{0}" AND CPF_VISITANTE="{1}" AND DATA_VISITA="{2}";'.format(*request.args.values()))
+    
+    conn.commit()
+    conn.close()
+    return redirect(url_for('visita'))
 
 
 if __name__ == "__main__":

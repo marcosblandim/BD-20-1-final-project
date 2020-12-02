@@ -10,7 +10,7 @@
     <a href="{{ url_for('index') }}">← Página Inicial</a>
 </div>
 
-<form method="POST">
+<form method="POST" action="/visitante/create">
     <br><label for="CPF">CPF</label>
     <input id="CPF" name="CPF" required>
     <br><label for="NOME">NOME</label>
@@ -23,17 +23,17 @@
     <button>Registrar</button>
 </form>
 
-<h2>Visitantes registrados</h2>
+<h2>Visitantes</h2>
 
 {% if context["num_visitantes"] %}
-<table style="width:100%">
+<table>
     <tr>
       <th>CPF</th>
       <th>NOME</th>
       <th>ESTADO_SAUDE</th>
       <th>DATA_NASC</th>
+      <th>Atualizar</th>
       <th>Deletar</th>
-      <th>Editar</th>
     </tr>
     {% for visitante in context["visitantes"] %}
     <tr>
@@ -42,13 +42,29 @@
             {{ col }}
         </td>
         {% endfor %}
-        <td><a href="/visitante/update?pk={{"teste"}}"> editar </a></td>
-        <td><a href="/visitante/delete?pk={{"teste"}}"> X </a></td>
+        <td><a href="/visitante/update?cpf={{visitante[0]}}"> atualizar </a></td>
+        <td>
+            <a href="/visitante/delete?cpf={{visitante[0]}}">
+                <img src="{{ url_for('static', filename='trash.png') }}" alt="deletar" />
+            </a>
+        </td>
     </tr>
     {% endfor %}
 </table> 
 {% else %}
 <p>Nenhum visitante cadastrado</p>
 {% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    window.onload = function(){
+        alert('{{ category + " : " + message}}');
+    };
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 {% endblock %}
