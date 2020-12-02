@@ -111,8 +111,11 @@ def visita():
 
     conn = mysql.connect()
     cursor = conn.cursor()
-
-    num_visitas = cursor.execute("select * from VISITAS;")
+    if request.args:
+        num_visitas = cursor.execute("select * from VISITAS where CPF_PACIENTE=%s;", request.args['paciente'])
+    else:
+        num_visitas = cursor.execute("select * from VISITAS;")
+            
     visitas = cursor.fetchall()
     
     cursor.execute("select CPF, NOME from PACIENTE;")
