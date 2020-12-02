@@ -111,8 +111,11 @@ def visita():
 
     conn = mysql.connect()
     cursor = conn.cursor()
-    if request.args:
+    
+    if 'paciente' in request.args:
         num_visitas = cursor.execute("select * from VISITAS where CPF_PACIENTE=%s;", request.args['paciente'])
+    elif 'visitante' in request.args:
+        num_visitas = cursor.execute("select * from VISITAS where CPF_VISITANTE=%s;", request.args['visitante'])
     else:
         num_visitas = cursor.execute("select * from VISITAS;")
             
@@ -193,7 +196,7 @@ def delete_leito():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*request.args.values()))
+    cursor.execute("DELETE FROM LEITO WHERE ID_HOSPITAL={1} AND NUMERO={0};".format(*request.args.values()))
     
     conn.commit()
     conn.close()
@@ -214,8 +217,7 @@ def create_paciente():
     formValues = [value or None for value in form]
 
     try:
-        # cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*form))
-        cursor.execute('INSERT INTO PACIENTE VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (formValues))
+        cursor.execute('CALL RegistrarPaciente(%s, %s, %s, %s, %s, %s, %s, %s)', (formValues))
     except pymysql.err.IntegrityError:
         flash('Paciente já existe', 'error')
         return redirect(url_for('paciente'))
@@ -254,14 +256,6 @@ def update_paciente():
     leito = leito.split()
     form += leito
 
-    # cursor.execute("""
-    #     UPDATE PACIENTE 
-    #     SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}", ID_HOSPITAL={6}, NUMERO={7}
-    #     WHERE CPF="{0}";
-    #     """.format(*form)
-    # )
-
-    # formValues = [value or None for value in request.form.values()]
     formValues = [value or None for value in form]
     cursor.execute( """UPDATE PACIENTE
         SET NOME=%s, ESTADO_SAUDE=%s, DATA_NASC=%s, DATA_INICIO=%s, DATA_FIM=%s, ID_HOSPITAL=%s, NUMERO=%s
@@ -402,6 +396,24 @@ def leito_do_paciente():
     }
 
     return render_template("leito_do_paciente.html", context=context)
+
+
+@app.route('/leitos_visitantes', methods=('GET',))
+def leitos_visitantes():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    num_visitantes = cursor.execute("SELECT * FROM VisitantesDoLeito")
+    visitantes = cursor.fetchall()
+
+    conn.commit()
+    conn.close()
+    context = {
+        "num_visitantes": num_visitantes,
+        "visitantes": visitantes
+    }
+
+    return render_template("leitos_visitantes.html", context=context)
 
 
 if __name__ == "__main__":

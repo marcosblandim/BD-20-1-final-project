@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Visitantes{% endblock %}
+
+{% block content %}
+
+<div class="homeButton">
+    <a href="{{ url_for('index') }}">← Página Inicial</a>
+</div>
+<h2>Visitantes dos Leitos</h2>
+
+{% if context["num_visitantes"] %}
+<table>
+    <tr>
+      <th>NOME VISITANTE</th>
+      <th>ID_HOSPITAL</th>
+      <th>LEITO</th>
+      <th>Numero de Visitas</th>
+    </tr>
+    {% for visitante in context["visitantes"] %}
+    <tr>
+        {% for col in visitante %}
+        <td>
+            {{ col }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table> 
+{% else %}
+<p>Nenhum visitante cadastrado</p>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    window.onload = function(){
+        alert('{{ category + " : " + message}}');
+    };
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+{% endblock %}

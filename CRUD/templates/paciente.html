@@ -39,7 +39,7 @@
     <select id="LEITO" name="LEITO" required>
         <option value="">-- Selecione --</option>
         {% for leito in context["leitos"] %}
-        <option value="{{leito[0]}} {{leito[1]}}">{{leito[0]}} - {{leito[1]}}</option>
+        <option value="{{leito[1]}} {{leito[0]}}">{{leito[0]}} - {{leito[1]}}</option>
         {% endfor %}
     </select>
     <br><br>

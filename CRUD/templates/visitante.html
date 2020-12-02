@@ -32,6 +32,7 @@
       <th>NOME</th>
       <th>ESTADO_SAUDE</th>
       <th>DATA_NASC</th>
+      <th>Visitas Feitas</th>
       <th>Atualizar</th>
       <th>Deletar</th>
     </tr>
@@ -42,6 +43,7 @@
             {{ col }}
         </td>
         {% endfor %}
+        <td><a href="/visita?visitante={{visitante[0]}}">visitas</a></td>
         <td><a href="/visitante/update?cpf={{visitante[0]}}"> atualizar </a></td>
         <td>
             <a href="/visitante/delete?cpf={{visitante[0]}}">
