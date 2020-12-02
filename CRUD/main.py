@@ -161,7 +161,7 @@ def update_leito():
     cursor = conn.cursor()
 
     if request.method == "GET":        
-        cursor.execute("SELECT * FROM LEITO WHERE NUMERO={0} AND ID_HOSPITAL={1};".format(*request.args.values()))
+        cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*request.args.values()))
         leitos = cursor.fetchall()
 
         conn.commit()
@@ -177,7 +177,7 @@ def update_leito():
     cursor.execute("""
         UPDATE LEITO 
         SET ANDAR={2}, CAPACIDADE={3}, INTERNADOS={4}
-        WHERE NUMERO={0} AND ID_HOSPITAL={1};
+        WHERE ID_HOSPITAL={0} AND NUMERO={1};
         """.format(*form.values())
     )
 
@@ -193,7 +193,7 @@ def delete_leito():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM LEITO WHERE NUMERO={0} AND ID_HOSPITAL={1};".format(*request.args.values()))
+    cursor.execute("DELETE FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*request.args.values()))
     
     conn.commit()
     conn.close()
@@ -378,6 +378,30 @@ def delete_visita():
     conn.commit()
     conn.close()
     return redirect(url_for('visita'))
+
+
+@app.route('/leito_do_paciente', methods=("GET",))
+def leito_do_paciente():
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    args = list(request.args.values())
+
+    print(cursor.execute("SELECT * FROM LEITO WHERE ID_HOSPITAL={0} AND NUMERO={1};".format(*args[0:2])))
+    leitos = cursor.fetchall()
+
+    paciente_nome = args[2]
+
+    conn.commit()
+    conn.close()
+
+    context = {
+        "leito": leitos[0],
+        "paciente_nome": paciente_nome
+    }
+
+    return render_template("leito_do_paciente.html", context=context)
 
 
 if __name__ == "__main__":

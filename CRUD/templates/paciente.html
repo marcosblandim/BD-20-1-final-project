@@ -70,7 +70,7 @@
         </td>
         {% endfor %}
         <td>
-            {{paciente[6]}} - {{paciente[7]}}
+            <a href="/leito_do_paciente?hid={{paciente[6]}}&num={{paciente[7]}}&nome={{paciente[1]}}">{{paciente[6]}} - {{paciente[7]}}</a>
         </td>
         <td>
             <a href="/visita?paciente={{paciente[0]}}"> Visitantes </a>
