@@ -198,9 +198,15 @@ def create_paciente():
     conn = mysql.connect()
     cursor = conn.cursor()
 
+    formValues = []
+    for value in request.form.values():
+        if value == "":
+            value = None
+
+        formValues.append(value)
+    
     try:
-        #cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*request.form.values()))
-        cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}")'.format(*request.form.values()))
+        cursor.execute('INSERT INTO PACIENTE VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (formValues))
     except pymysql.err.IntegrityError:
         flash('Paciente já existe', 'error')
         return redirect(url_for('paciente'))
@@ -218,7 +224,7 @@ def update_paciente():
     cursor = conn.cursor()
 
     if request.method == "GET":        
-        cursor.execute("SELECT * FROM PACIENTE WHERE CPF={0};".format(*request.args.values()))
+        cursor.execute("SELECT * FROM PACIENTE WHERE CPF='{0}';".format(*request.args.values()))
         pacientes = cursor.fetchall()
 
         conn.commit()
@@ -230,18 +236,19 @@ def update_paciente():
         }
         return render_template("update_paciente.html", context=context)
 
-    form = request.form
-    # cursor.execute("""
-    #     UPDATE PACIENTE 
-    #     SET NOME={1}, ESTADO_SAUDE={2}, DATA_NASC={3}, DATA_INICIO={4}, DATA_FIM={5}, ID_HOSPITAL={6}, NUMERO={7}
-    #     WHERE CPF={0};
-    #     """.format(*form.values())
-    # )
-    cursor.execute("""
-        UPDATE PACIENTE 
-        SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}"
-        WHERE CPF="{0}";
-        """.format(*form.values())
+    formValues = []
+    for value in request.form.values():
+        if value == "":
+            value = None
+
+        formValues.append(value)
+
+    cpf = formValues[0]
+    formValues.pop(0)
+    cursor.execute( """UPDATE PACIENTE
+        SET NOME=%s, ESTADO_SAUDE=%s, DATA_NASC=%s, DATA_INICIO=%s, DATA_FIM=%s
+        WHERE CPF=%s;
+        """, (*formValues, cpf)
     )
 
     conn.commit()
