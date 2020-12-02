@@ -89,7 +89,7 @@
         </td>
         {% endfor %}
         <td>
-            {{paciente[6]}} - {{paciente[7]}}
+            <a href="/leito_do_paciente?hid={{paciente[6]}}&num={{paciente[7]}}&nome={{paciente[1]}}">{{paciente[6]}} - {{paciente[7]}}</a>
         </td>
         {% set params = "cpf={0}".format(*paciente) %}
         <td><a href="/paciente/update?cpf={{paciente[0]}}"> atualizar </a></td>

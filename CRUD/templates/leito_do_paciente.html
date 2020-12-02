@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Pacientes{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    window.onload = function(){
+        alert('{{ category + " : " + message}}');
+    };
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<h2>Leito do paciente {{context["paciente_nome"]}}</h2>
+
+<div class="goBackButton">
+    <a href="{{ url_for('paciente') }}">← Voltar</a>
+</div>
+
+<table>
+    <tr>
+        <th>ID_HOSPITAL</th>
+        <th>NUMERO</th>
+        <th>ANDAR</th>
+        <th>CAPACIDADE</th>
+        <th>INTERNADOS</th>
+    </tr>
+    <tr><br>
+        {% for col in context["leito"] %}
+        <td>
+            {{ col }}
+        </td>
+        {% endfor %}
+    </tr>
+
+</table>
+
+{% endblock %}
