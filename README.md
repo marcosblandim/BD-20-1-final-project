@@ -1,6 +1,7 @@
 # BD-20-1-final-project
 
 ## TODO
+- mandar todas as pks disponiveis para aquela entidade, listar elas em um select (parecido com o front do visita), e usar elas para mostrar a relacao depois.
 - fazer as PKs levarem para uma tela de visualização da relacao
   - paciente cadastra 1 leito e N visitantes
   - visitante cadastra N pacientes
@@ -11,7 +12,8 @@
 - resolver o problema das entradas negativas nos numero inteiros
 - colocar alerta em todas as acoes
 - fazer legenda do estado de saúde
-- mandar todas as pks disponiveis para aquela entidade, listar elas em um select (parecido com o front do visita), e usar elas para mostrar a relacao depois.
+- transformar o estado de saude em um select que no back vira um numero antes de ir pro bd
+- tornar os inputs nao obrigatorios como nao requireds no front, e arrumar as querys para conseguirem inserir vazio
 
 ## Geral
 - SGBD -> MySQL

@@ -69,6 +69,9 @@ def paciente():
 
     num_pacientes = cursor.execute("select * from PACIENTE;")
     pacientes = cursor.fetchall()
+
+    cursor.execute("select * from LEITO;")
+    leitos = cursor.fetchall()
     
     conn.commit()
     cursor.close() 
@@ -76,7 +79,8 @@ def paciente():
 
     context = {
         "pacientes": pacientes,
-        "num_pacientes": num_pacientes
+        "num_pacientes": num_pacientes,
+        "leitos": leitos
     }
 
     return render_template("paciente.html", context=context)
@@ -199,8 +203,13 @@ def create_paciente():
     cursor = conn.cursor()
 
     try:
-        #cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*request.form.values()))
-        cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}")'.format(*request.form.values()))
+        form = list(request.form.values())
+        leito = form.pop()
+        leito = leito.split()
+        form += leito
+
+        cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*form))
+
     except pymysql.err.IntegrityError:
         flash('Paciente já existe', 'error')
         return redirect(url_for('paciente'))
@@ -221,27 +230,29 @@ def update_paciente():
         cursor.execute("SELECT * FROM PACIENTE WHERE CPF={0};".format(*request.args.values()))
         pacientes = cursor.fetchall()
 
+        cursor.execute("select * from LEITO;")
+        leitos = cursor.fetchall()
+
         conn.commit()
         cursor.close() 
         conn.close()
 
         context = {
             "paciente": pacientes[0],
+            "leitos": leitos
         }
         return render_template("update_paciente.html", context=context)
 
-    form = request.form
-    # cursor.execute("""
-    #     UPDATE PACIENTE 
-    #     SET NOME={1}, ESTADO_SAUDE={2}, DATA_NASC={3}, DATA_INICIO={4}, DATA_FIM={5}, ID_HOSPITAL={6}, NUMERO={7}
-    #     WHERE CPF={0};
-    #     """.format(*form.values())
-    # )
+    form = list(request.form.values())
+    leito = form.pop()
+    leito = leito.split()
+    form += leito
+
     cursor.execute("""
         UPDATE PACIENTE 
-        SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}"
+        SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}", ID_HOSPITAL={6}, NUMERO={7}
         WHERE CPF="{0}";
-        """.format(*form.values())
+        """.format(*form)
     )
 
     conn.commit()

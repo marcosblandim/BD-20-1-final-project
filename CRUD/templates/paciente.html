@@ -35,10 +35,13 @@
     <input id="DATA_INICIO" name="DATA_INICIO" required type="date">
     <br><label for="DATA_FIM">Data fim</label>
     <input id="DATA_FIM" name="DATA_FIM" required type="date">
-    <!-- <br><label for="ID_HOSPITAL">ID do hospital</label>
-    <input id="ID_HOSPITAL" name="ID_HOSPITAL" required type="number">
-    <br><label for="NUMERO">Número do hospital</label>
-    <input id="NUMERO" name="NUMERO" required type="number"> -->
+    <br><label for="LEITO">ID do leito</label>
+    <select id="LEITO" name="LEITO" required>
+        <option value="">-- Selecione --</option>
+        {% for leito in context["leitos"] %}
+        <option value="{{leito[0]}} {{leito[1]}}">{{leito[0]}} - {{leito[1]}}</option>
+        {% endfor %}
+    </select>
     <br><br>
     <button>Registrar</button>
 </form>
@@ -74,16 +77,20 @@
       <th>DATA_NASC</th>
       <th>DATA_INICIO</th>
       <th>DATA_FIM</th>
+      <th>LEITO</th>
       <th>Atualizar</th>
       <th>Deletar</th>
     </tr>
     {% for paciente in context["pacientes"] %}
-    <tr>
-        {% for col in paciente %}
+    <tr><br>
+        {% for col in paciente[0:6] %}
         <td>
             {{ col }}
         </td>
         {% endfor %}
+        <td>
+            {{paciente[6]}} - {{paciente[7]}}
+        </td>
         {% set params = "cpf={0}".format(*paciente) %}
         <td><a href="/paciente/update?cpf={{paciente[0]}}"> atualizar </a></td>
         <td>
