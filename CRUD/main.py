@@ -202,14 +202,15 @@ def create_paciente():
     conn = mysql.connect()
     cursor = conn.cursor()
 
+    form = list(request.form.values())
+    leito = form.pop()
+    leito = leito.split()
+    form += leito
+    formValues = [value or None for value in form]
+
     try:
-        form = list(request.form.values())
-        leito = form.pop()
-        leito = leito.split()
-        form += leito
-
-        cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*form))
-
+        # cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*form))
+        cursor.execute('INSERT INTO PACIENTE VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (formValues))
     except pymysql.err.IntegrityError:
         flash('Paciente já existe', 'error')
         return redirect(url_for('paciente'))
@@ -227,7 +228,7 @@ def update_paciente():
     cursor = conn.cursor()
 
     if request.method == "GET":        
-        cursor.execute("SELECT * FROM PACIENTE WHERE CPF={0};".format(*request.args.values()))
+        cursor.execute("SELECT * FROM PACIENTE WHERE CPF='{0}';".format(*request.args.values()))
         pacientes = cursor.fetchall()
 
         cursor.execute("select * from LEITO;")
@@ -248,11 +249,19 @@ def update_paciente():
     leito = leito.split()
     form += leito
 
-    cursor.execute("""
-        UPDATE PACIENTE 
-        SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}", ID_HOSPITAL={6}, NUMERO={7}
-        WHERE CPF="{0}";
-        """.format(*form)
+    # cursor.execute("""
+    #     UPDATE PACIENTE 
+    #     SET NOME="{1}", ESTADO_SAUDE={2}, DATA_NASC="{3}", DATA_INICIO="{4}", DATA_FIM="{5}", ID_HOSPITAL={6}, NUMERO={7}
+    #     WHERE CPF="{0}";
+    #     """.format(*form)
+    # )
+
+    # formValues = [value or None for value in request.form.values()]
+    formValues = [value or None for value in form]
+    cursor.execute( """UPDATE PACIENTE
+        SET NOME=%s, ESTADO_SAUDE=%s, DATA_NASC=%s, DATA_INICIO=%s, DATA_FIM=%s, ID_HOSPITAL=%s, NUMERO=%s
+        WHERE CPF=%s;
+        """, (*formValues[1:], formValues[0])
     )
 
     conn.commit()

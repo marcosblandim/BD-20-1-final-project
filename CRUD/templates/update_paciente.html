@@ -12,21 +12,21 @@
 
 <form method="POST" action="/paciente/update">
     <br><label for="CPF">CPF</label>
-    <input id="CPF" name="CPF" required readonly="readonly" value="{{context["paciente"][0]}}">
+    <input id="CPF" name="CPF" required readonly="readonly" value='{{context["paciente"][0]}}'>
     <br><label for="NOME">NOME</label>
-    <input id="NOME" name="NOME" required value="{{context["paciente"][1]}}">
+    <input id="NOME" name="NOME" required value='{{context["paciente"][1]}}'>
     <br><label for="ESTADO_SAUDE">ESTADO_SAUDE</label>
-    <input id="ESTADO_SAUDE" name="ESTADO_SAUDE" required type="number" value="{{context["paciente"][2]}}">
+    <input id="ESTADO_SAUDE" name="ESTADO_SAUDE" required type="number" value='{{context["paciente"][2]}}'>
     <br><label for="DATA_NASC">DATA_NASC</label>
-    <input id="DATA_NASC" name="DATA_NASC" required type="date" value="{{context["paciente"][3]}}">
+    <input id="DATA_NASC" name="DATA_NASC" required type="date" value='{{context["paciente"][3]}}'>
     <br><label for="DATA_INICIO">DATA_INICIO</label>
-    <input id="DATA_INICIO" name="DATA_INICIO" required type="date" value="{{context["paciente"][4]}}">
+    <input id="DATA_INICIO" name="DATA_INICIO" required type="date" value='{{context["paciente"][4]}}'>
     <br><label for="DATA_FIM">DATA_FIM</label>
-    <input id="DATA_FIM" name="DATA_FIM" type="date" value="{{context["paciente"][5]}}">
+    <input id="DATA_FIM" name="DATA_FIM" type="date" value='{{context["paciente"][5]}}'>
     <br><label for="LEITO">LEITO</label>
     <select id="LEITO" name="LEITO" required>
         {% for leito in context["leitos"] %}
-        <option {{"selected" if (leito[0] == context["paciente"][6] and leito[1] == context["paciente"][7]) else "" }} value="{{leito[0]}} {{leito[1]}}">{{leito[0]}} - {{leito[1]}}</option>
+        <option {{"selected" if (leito[0] == context["paciente"][6] and leito[1] == context["paciente"][7]) else "" }} value='{{leito[0]}} {{leito[1]}}'>{{leito[0]}} - {{leito[1]}}</option>
         {% endfor %}
     </select>
     <br><br>
