@@ -202,15 +202,17 @@ def create_paciente():
     conn = mysql.connect()
     cursor = conn.cursor()
 
+    # pegar e formatar leito do paciente
     form = list(request.form.values())
     leito = form.pop()
     leito = leito.split()
     form += leito
+
     formValues = [value or None for value in form]
 
     try:
         # cursor.execute('INSERT INTO PACIENTE VALUES ("{0}","{1}",{2},"{3}","{4}","{5}",{6},{7})'.format(*form))
-        cursor.execute('INSERT INTO PACIENTE VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (formValues))
+        cursor.execute('INSERT INTO PACIENTE VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (formValues))
     except pymysql.err.IntegrityError:
         flash('Paciente já existe', 'error')
         return redirect(url_for('paciente'))
